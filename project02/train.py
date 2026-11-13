@@ -42,13 +42,15 @@ def hand_features(suits, ranks):
 
     # 숫자별 개수 (인덱스 1~13, 14는 에이스를 하이로 볼 때)
     rc = np.zeros((N, 15), dtype=int)
-    for j in range(n):
-        np.add.at(rc, (rows, ranks[:, j]), 1)
+    for i in range(N):          # 손패마다
+        for j in range(n):      # 카드마다
+            rc[i, ranks[i, j]] += 1
     rc[:, 14] = rc[:, 1]
     # 문양별 개수
     sc = np.zeros((N, 5), dtype=int)
-    for j in range(n):
-        np.add.at(sc, (rows, suits[:, j]), 1)
+    for i in range(N):          # 손패마다
+        for j in range(n):      # 카드마다
+            sc[i, suits[i, j]] += 1
 
     counts = rc[:, 1:14]
     max_rank = counts.max(axis=1)                       # 1~4

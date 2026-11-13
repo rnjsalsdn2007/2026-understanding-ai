@@ -32,12 +32,14 @@ def hand_features(suits, ranks):
     N, n = ranks.shape
     rows = np.arange(N)
     rc = np.zeros((N, 15), dtype=int)
-    for j in range(n):
-        np.add.at(rc, (rows, ranks[:, j]), 1)
+    for i in range(N):          # 손패마다
+        for j in range(n):      # 카드마다
+            rc[i, ranks[i, j]] += 1
     rc[:, 14] = rc[:, 1]
     sc = np.zeros((N, 5), dtype=int)
-    for j in range(n):
-        np.add.at(sc, (rows, suits[:, j]), 1)
+    for i in range(N):          # 손패마다
+        for j in range(n):      # 카드마다
+            sc[i, suits[i, j]] += 1
     counts = rc[:, 1:14]
     max_rank = counts.max(axis=1)
     n_pairs = (counts == 2).sum(axis=1)
